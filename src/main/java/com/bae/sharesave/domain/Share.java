@@ -14,23 +14,20 @@ public class Share {
 	private String name;
 	private double amount;
 	private double price;
-	private double value;
 
-	public Share(Long id, String name, double amount, double price, double value) {
+	public Share(Long id, String name, double amount, double price) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.amount = amount;
 		this.price = price;
-		this.value = value;
 	}
 
-	public Share(String name, double amount, double price, double value) {
+	public Share(String name, double amount, double price) {
 		super();
 		this.name = name;
 		this.amount = amount;
 		this.price = price;
-		this.value = value;
 	}
 
 	public Share() {
@@ -61,20 +58,43 @@ public class Share {
 		this.price = price;
 	}
 
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Share [id=" + id + ", name=" + name + ", amount=" + amount + ", price=" + price + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Share other = (Share) obj;
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+			return false;
+		return true;
 	}
 
 }

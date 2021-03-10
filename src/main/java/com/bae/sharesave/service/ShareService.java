@@ -10,4 +10,6 @@ public interface ShareService {
 	List<Share> getShares();
 
 	Share updateShare(Long id, Share newShare);
+
+	boolean removeShare(Long id);
 }

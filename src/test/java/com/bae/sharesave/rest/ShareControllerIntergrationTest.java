@@ -1,8 +1,11 @@
 package com.bae.sharesave.rest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +47,20 @@ public class ShareControllerIntergrationTest {
 		ResultMatcher matchBody = content().json(savedShareJSON);
 		// Test
 		this.mockMVC.perform(mockRequest).andExpect(matchStatus).andExpect(matchBody);
+	}
+
+	@Test
+	void testRead() throws Exception {
+		Share share = new Share(1L, "Barclays", 1000, 2);
+
+		List<Share> sharesList = List.of(share);
+		String sharesAsJSON = this.mapper.writeValueAsString(sharesList);
+
+		RequestBuilder mockRequest = get("/getShares");
+
+		ResultMatcher checkStatus = status().isOk();
+		ResultMatcher checkBody = content().json(sharesAsJSON);
+
+		this.mockMVC.perform(mockRequest).andExpect(checkStatus).andExpect(checkBody);
 	}
 }

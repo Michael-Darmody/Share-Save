@@ -2,6 +2,7 @@ package com.bae.sharesave.rest;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,12 @@ public class ShareController {
 	}
 
 	@PutMapping("/update/{id}")
-	public Share updatePerson(@PathVariable Long id, @RequestBody Share newShare) {
+	public Share updateShare(@PathVariable Long id, @RequestBody Share newShare) {
 		return this.service.updateShare(id, newShare);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public boolean deleteShare(@PathVariable Long id) {
+		return this.service.deleteShare(id);
 	}
 }

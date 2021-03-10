@@ -1,5 +1,6 @@
 package com.bae.sharesave.rest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -39,13 +40,16 @@ public class ShareControllerIntergrationTest {
 	void testCreate() throws Exception {
 		Share share = new Share("Vodafone", 2000, 1.5);
 		Share savedShare = new Share(2L, "Vodafone", 2000, 1.5);
+
 		// Mock request
 		String shareJSON = this.mapper.writeValueAsString(share);
 		RequestBuilder mockRequest = post("/create").contentType(MediaType.APPLICATION_JSON).content(shareJSON);
+
 		// Mock response
 		String savedShareJSON = this.mapper.writeValueAsString(savedShare);
 		ResultMatcher matchStatus = status().isOk();
 		ResultMatcher matchBody = content().json(savedShareJSON);
+
 		// Test
 		this.mockMVC.perform(mockRequest).andExpect(matchStatus).andExpect(matchBody);
 	}
@@ -57,11 +61,14 @@ public class ShareControllerIntergrationTest {
 		List<Share> sharesList = List.of(share);
 		String sharesAsJSON = this.mapper.writeValueAsString(sharesList);
 
+		// Mock request
 		RequestBuilder mockRequest = get("/getShares");
 
+		// Mock response
 		ResultMatcher checkStatus = status().isOk();
 		ResultMatcher checkBody = content().json(sharesAsJSON);
 
+		// Test
 		this.mockMVC.perform(mockRequest).andExpect(checkStatus).andExpect(checkBody);
 	}
 
@@ -78,6 +85,19 @@ public class ShareControllerIntergrationTest {
 		String savedShareJSON = this.mapper.writeValueAsString(savedShare);
 		ResultMatcher checkStatus = status().isOk();
 		ResultMatcher checkBody = content().json(savedShareJSON);
+
+		// Test
+		this.mockMVC.perform(mockRequest).andExpect(checkStatus).andExpect(checkBody);
+	}
+
+	@Test
+	void testDelete() throws Exception {
+		// Mock request
+		RequestBuilder mockRequest = delete("/delete/1");
+
+		// Mock response
+		ResultMatcher checkStatus = status().isOk();
+		ResultMatcher checkBody = content().string("true");
 
 		// Test
 		this.mockMVC.perform(mockRequest).andExpect(checkStatus).andExpect(checkBody);

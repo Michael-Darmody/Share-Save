@@ -8,4 +8,6 @@ public interface ShareService {
 	Share createShare(Share share);
 
 	List<Share> getShares();
+
+	Share updateShare(Long id, Share newShare);
 }

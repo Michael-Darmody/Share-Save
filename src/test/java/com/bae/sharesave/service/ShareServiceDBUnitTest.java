@@ -3,6 +3,7 @@ package com.bae.sharesave.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -49,5 +50,23 @@ public class ShareServiceDBUnitTest {
 		// Test
 		assertThat(this.service.getShares().equals(sharesList));
 		Mockito.verify(this.repo, Mockito.times(1)).findAll();
+	}
+
+	@Test
+	public void testUpdateShare() {
+		// Arguments for get method and expected results
+		Long id = 1L;
+		Share newShare = new Share("Vodafone", 200, 1.5);
+		Optional<Share> optionalShare = Optional.of(new Share(id, "Barclays", 1000, 2));
+		Share updatedShare = new Share(id, newShare.getName(), newShare.getAmount(), newShare.getPrice());
+
+		// Telling mocked repository what to do
+		Mockito.when(this.repo.findById(id)).thenReturn(optionalShare);
+		Mockito.when(this.repo.save(updatedShare)).thenReturn(updatedShare);
+
+		// Test
+		assertThat(this.service.updateShare(id, newShare)).isEqualTo(updatedShare);
+		Mockito.verify(this.repo, Mockito.times(1)).findById(id);
+		Mockito.verify(this.repo, Mockito.times(1)).save(updatedShare);
 	}
 }

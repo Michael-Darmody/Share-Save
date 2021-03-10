@@ -11,5 +11,5 @@ public interface ShareService {
 
 	Share updateShare(Long id, Share newShare);
 
-	boolean removeShare(Long id);
+	boolean deleteShare(Long id);
 }

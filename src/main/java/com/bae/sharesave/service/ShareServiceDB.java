@@ -39,7 +39,7 @@ public class ShareServiceDB implements ShareService {
 	}
 
 	@Override
-	public boolean removeShare(Long id) {
+	public boolean deleteShare(Long id) {
 		this.repo.deleteById(id);
 		boolean exists = this.repo.existsById(id);
 		return !exists;

@@ -34,7 +34,6 @@ public class ShareServiceDBUnitTest {
 
 		// Test
 		assertThat(this.service.createShare(newShare)).isEqualTo(savedShare);
-
 		Mockito.verify(this.repo, Mockito.times(1)).save(newShare);
 	}
 
@@ -68,5 +67,18 @@ public class ShareServiceDBUnitTest {
 		assertThat(this.service.updateShare(id, newShare)).isEqualTo(updatedShare);
 		Mockito.verify(this.repo, Mockito.times(1)).findById(id);
 		Mockito.verify(this.repo, Mockito.times(1)).save(updatedShare);
+	}
+
+	@Test
+	public void testDeleteShare() {
+		Long id = 1L;
+
+		// Telling mocked repository what to do
+		Mockito.when(this.repo.existsById(id)).thenReturn(false);
+
+		// Test
+		assertThat(this.service.deleteShare(id)).isTrue();
+		Mockito.verify(this.repo, Mockito.times(1)).deleteById(id);
+		Mockito.verify(this.repo, Mockito.times(1)).existsById(id);
 	}
 }

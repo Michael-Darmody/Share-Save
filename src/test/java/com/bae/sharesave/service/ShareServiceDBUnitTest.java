@@ -2,6 +2,8 @@ package com.bae.sharesave.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,19 @@ public class ShareServiceDBUnitTest {
 		assertThat(this.service.createShare(newShare)).isEqualTo(savedShare);
 
 		Mockito.verify(this.repo, Mockito.times(1)).save(newShare);
+	}
+
+	@Test
+	public void testGetPeople() {
+		// Arguments for get method and expected results
+		Share savedShare = new Share(1L, "Vodafone", 2000, 1.5);
+		List<Share> sharesList = List.of(savedShare);
+
+		// Telling mocked repository what to do
+		Mockito.when(this.repo.findAll()).thenReturn(sharesList);
+
+		// Test
+		assertThat(this.service.getShares().equals(sharesList));
+		Mockito.verify(this.repo, Mockito.times(1)).findAll();
 	}
 }

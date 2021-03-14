@@ -1,11 +1,15 @@
 package com.bae.sharesave.selenium;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,6 +29,8 @@ public class ShareSaveAutomationTest {
 
 	@BeforeEach
 	void setup() {
+		ChromeOptions options = new ChromeOptions();
+		options.setHeadless(true);
 		this.driver = new ChromeDriver();
 		this.driver.manage().window().maximize();
 	}
@@ -109,9 +115,27 @@ public class ShareSaveAutomationTest {
 		Assertions.assertTrue(updatedShareCard.getText().contains("Updated Share"));
 
 	}
-//
-//	@AfterEach
-//	void tearDown() {
-//		this.driver.close();
-//	}
+
+	@Test
+	void testShareSaveDelete() throws InterruptedException {
+		this.driver.get("http://127.0.0.1:5500/ShareSave/index.html");
+
+		Thread.sleep(2000);
+
+		WebElement deleteBtn = this.driver
+				.findElement(By.xpath("//*[@id=\"output\"]/section[1]/section/section[2]/button[1]"));
+
+		deleteBtn.click();
+
+		Thread.sleep(2000);
+
+		WebElement section = driver.findElement(By.xpath("/html/body/main/section"));
+
+		assertThat(section.getText()).doesNotContain("Barclays");
+	}
+
+	@AfterEach
+	void tearDown() {
+		this.driver.close();
+	}
 }

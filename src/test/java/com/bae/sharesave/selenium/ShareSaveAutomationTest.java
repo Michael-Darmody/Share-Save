@@ -68,6 +68,47 @@ public class ShareSaveAutomationTest {
 		Assertions.assertTrue(newShareCard.getText().contains("Vodafone"));
 
 	}
+
+	@Test
+	void testShareSaveUpdate() throws InterruptedException {
+		this.driver.get("http://127.0.0.1:5500/ShareSave/index.html");
+
+		Thread.sleep(2000);
+
+		WebElement editBtn = this.driver
+				.findElement(By.xpath("//*[@id=\"output\"]/section/section/section[2]/button[2]"));
+
+		editBtn.click();
+
+		WebElement updateEnterShareName = this.driver
+				.findElement(By.xpath("/html/body/main/section/section[1]/div/form/section[1]/input"));
+
+		updateEnterShareName.sendKeys("Updated Share");
+
+		WebElement updateEnterShareAmount = this.driver
+				.findElement(By.xpath("/html/body/main/section/section[1]/div/form/section[2]/input"));
+
+		updateEnterShareAmount.sendKeys("1000");
+
+		WebElement updateEnterSharePrice = this.driver
+				.findElement(By.xpath("/html/body/main/section/section[1]/div/form/section[3]/input"));
+
+		updateEnterSharePrice.sendKeys("1");
+
+		WebElement submitBtn = this.driver.findElement(By.xpath("/html/body/main/section/section[1]/div/form/button"));
+
+		submitBtn.click();
+
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+
+		Thread.sleep(2000);
+
+		WebElement updatedShareCard = wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("/html/body/main/section/section[2]/div/section[1]/section/section[1]/h5")));
+
+		Assertions.assertTrue(updatedShareCard.getText().contains("Updated Share"));
+
+	}
 //
 //	@AfterEach
 //	void tearDown() {
